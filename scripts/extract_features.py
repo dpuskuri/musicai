@@ -1,7 +1,7 @@
 # scripts/extract_features.py
 import librosa
 import numpy as np
-import os
+import soundfile as sf
 
 def extract_features(file_path):
     y, sr = librosa.load(file_path, sr=44100)
@@ -21,6 +21,24 @@ def extract_features(file_path):
     ])
     
     return feature_vector
+
+def generate_new_track(features, output_path):
+    sr = 44100
+    duration = 30  # seconds
+    t = np.linspace(0, duration, int(sr * duration))
+    y = np.sin(2 * np.pi * features[6] * t)  # Use tempo as frequency for simplicity
+
+    sf.write(output_path, y, sr)
+
+if __name__ == "__main__":
+    file_path = 'audio/your_darkpsy_track.wav'
+    features = extract_features(file_path)
+    print("Extracted features:", features)
+    
+    # Generate new track
+    output_path = 'output/new_darkpsy_track.wav'
+    generate_new_track(features, output_path)
+    print(f"New track generated and saved to {output_path}")
 
 if __name__ == "__main__":
     file_path = 'audio/your_darkpsy_track.wav'
