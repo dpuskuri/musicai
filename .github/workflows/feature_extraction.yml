@@ -21,9 +21,9 @@ jobs:
 
     - name: Install dependencies
       run: |
-        sudo apt-get install -y libsndfile1  # Install libsndfile
+        sudo apt-get install -y libsndfile1 ffmpeg
         python -m pip install --upgrade pip
-        pip install librosa
+        pip install librosa pydub
 
     - name: Find Tempo/BPM
       run: |
