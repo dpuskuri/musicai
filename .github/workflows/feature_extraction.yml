@@ -16,8 +16,10 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4  # Update to latest version that supports Node.js 20
 
-    - name: Set up Git LFS
-      run: git lfs install
+    - name: Set up Node.js 20
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'  # Set Node.js version to 20
 
     - name: Set up Python
       uses: actions/setup-python@v2
