@@ -1,35 +1,42 @@
-import sys
 import numpy as np
-import audioflux
+import scipy.io.wavfile as wav
+import matplotlib.pyplot as plt
 
-def detect_tempo(audio_file):
-    """
-    Detect the tempo of the audio file.
-    """
-    try:
-        # Load the audio file
-        signal, sr = audioflux.load(audio_file)
-        
-        # Tempo detection
-        tempo, _ = audioflux.tempo.beat_track(signal, sr)
-        
-        # Ensure the tempo is a single float value
-        if isinstance(tempo, np.ndarray):
-            tempo = tempo[0]
-        return tempo
-    except Exception as e:
-        print(f"Failed to detect tempo: {e}")
-        sys.exit(1)
+# Function to perform FFT
+def dofft(wavfile, bass=True, tenor=True, inverse=False, *args):
+    rate, data = wav.read(wavfile)
+    n = len(data)
+    f = np.fft.fftfreq(n, d=1/rate)
+    fdata = np.fft.fft(data)
+    
+    if inverse:
+        # Apply inverse FFT if needed
+        # Zero out specified frequencies
+        for freq in args:
+            if freq > 0 and freq < rate / 2:
+                fdata[np.abs(f - freq) < 2.69] = 0
+        data_inv = np.fft.ifft(fdata).real.astype(np.int16)
+        wav.write(wavfile.split('.')[0] + '_inverse.wav', rate, data_inv)
+
+    # Plot frequency spectrum
+    plt.figure(figsize=(10, 6))
+    plt.plot(f[:n//2], np.abs(fdata[:n//2]))
+    plt.title('Frequency Spectrum')
+    plt.xlabel('Frequency (Hz)')
+    plt.ylabel('Amplitude')
+    plt.grid(True)
+    plt.show()
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python tempo_detection.py <audio_file>")
+    import sys
+
+    if len(sys.argv) < 2:
+        print("Usage: python dofft.py <filename.wav> [bass] [tenor] [inverse] [freq1 freq2 ...]")
         sys.exit(1)
 
-    audio_file = sys.argv[1]
-    tempo = detect_tempo(audio_file)
-    print(f"Tempo type: {type(tempo)}")  # Debug information
-    print(f"Detected tempo: {tempo:.2f} BPM")
+    filename = sys.argv[1]
+    dofft(filename, *sys.argv[2:])
+
 
 
 
