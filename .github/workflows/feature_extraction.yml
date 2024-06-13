@@ -1,4 +1,3 @@
-# .github/workflows/feature_extraction.yml
 name: Feature Extraction and Generation
 
 on:
@@ -15,7 +14,7 @@ jobs:
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4  # Update to latest version that supports Node.js 20
 
     - name: Set up Git LFS
       run: git lfs install
