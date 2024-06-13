@@ -21,15 +21,13 @@ jobs:
 
     - name: Install dependencies
       run: |
+        sudo apt-get install -y libsndfile1  # Install libsndfile
         python -m pip install --upgrade pip
         pip install librosa
+        pip install PySoundFile  # Install PySoundFile and its dependencies
 
     - name: Find Tempo/BPM
       run: |
         python scripts/tempo_detection.py  # Adjust the path to match your directory structure
 
-
-    - name: Find Tempo/BPM
-      run: |
-        python tempo_detection.py
 
