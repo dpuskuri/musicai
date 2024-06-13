@@ -1,4 +1,4 @@
-name: Tempo Detection
+name: Feature Extraction and Tempo Detection
 
 on:
   push:
@@ -9,25 +9,28 @@ on:
       - main
 
 jobs:
-  detect-tempo:
+  extract_and_detect_tempo:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          lfs: true  # Ensure Git LFS is used
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+      with:
+        lfs: true  # Enable Git LFS support
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.8'
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install librosa soundfile
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install librosa
 
-      - name: Detect Tempo
-        run: |
-          python scripts/tempo_detection.py audio/CINDERVOMIT.wav
+    - name: Pull WAV file with LFS
+      run: git lfs pull
+
+    - name: Run Tempo Detection
+      run: python scripts/tempo_detection.py  # Adjust the path if necessary
+
