@@ -31,7 +31,7 @@ def generate_new_track(features, output_path):
     sf.write(output_path, y, sr)
 
 if __name__ == "__main__":
-    file_path = 'audio/your_darkpsy_track.wav'
+    file_path = 'audio/CINDERVOMIT.wav'
     features = extract_features(file_path)
     print("Extracted features:", features)
     
@@ -41,6 +41,6 @@ if __name__ == "__main__":
     print(f"New track generated and saved to {output_path}")
 
 if __name__ == "__main__":
-    file_path = 'audio/your_darkpsy_track.wav'
+    file_path = 'audio/CINDERVOMIT.wav'
     features = extract_features(file_path)
     print("Extracted features:", features)
