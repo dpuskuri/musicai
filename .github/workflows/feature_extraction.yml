@@ -1,35 +1,36 @@
-name: Feature Extraction and Tempo Detection
+name: Darkpsy Audio Analysis
 
 on:
   push:
     branches:
-      - main
-  pull_request:
-    branches:
-      - main
+      - main  # Adjust this according to your branch
 
 jobs:
-  extract_and_detect_tempo:
+  analyze_audio:
     runs-on: ubuntu-latest
-
+    
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
-      with:
-        lfs: true  # Enable Git LFS support
-
+      
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.8'
-
+        python-version: 3.8  # Choose Python version
+        
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install audioflux numpy
+        pip install numpy scipy matplotlib
+        
+    - name: Run Analysis Script
+      run: |
+        python scripts/tempo_detection.py audio/CINDERVOMIT.wav
+      
+    - name: Commit Analysis Results
+      run: |
+        git config --global user.email "github-actions@example.com"
+        git config --global user.name "GitHub Actions"
+        git add your_darkpsy_file_frequency_spectrum.png
+        git commit -m "Add frequency spectrum analysis results"
+        git push origin main
 
-    - name: Pull WAV file with LFS
-      run: git lfs pull
-
-    - name: Run Tempo Detection
-      run: python scripts/tempo_detection.py audio/CINDERVOMIT.wav  # Adjust the path if necessary
