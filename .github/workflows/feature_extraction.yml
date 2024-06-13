@@ -17,6 +17,9 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
+    - name: Set up Git LFS
+      run: git lfs install
+
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
@@ -35,6 +38,7 @@ jobs:
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git lfs track "output/new_darkpsy_track.wav"  # Ensure Git LFS is tracking the file
         git add output/new_darkpsy_track.wav
         git commit -m 'Add generated Darkpsy track'
         git push
