@@ -3,7 +3,7 @@ import numpy as np
 from extract_features import extract_features
 
 def test_extract_features():
-    file_path = 'audio/your_darkpsy_track.wav'
+    file_path = 'audio/CINDERVOMIT.wav'
     features = extract_features(file_path)
     assert features is not None
     assert len(features) > 0
