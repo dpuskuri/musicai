@@ -1,37 +1,33 @@
-# .github/workflows/tempo_detection.yml
 name: Tempo Detection
 
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  detect_tempo:
+  detect-tempo:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
-      with:
-        lfs: true  # This ensures Git LFS files are pulled
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          lfs: true  # Ensure Git LFS is used
 
-    - name: Set up Git LFS
-      run: |
-        git lfs install
-        git lfs pull
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
 
-    - name: Set up Python
-      uses: actions/setup-python@v3
-      with:
-        python-version: '3.8'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install librosa soundfile
 
-    - name: Install dependencies
-      run: |
-        sudo apt-get install -y libsndfile1 ffmpeg
-        python -m pip install --upgrade pip
-        pip install librosa pydub
-
-    - name: Verify and Process Audio File
-      run: |
-        python scripts/tempo_detection.py  # Adjust the path to match your directory structure
+      - name: Detect Tempo
+        run: |
+          python scripts/tempo_detection.py audio/CINDERVOMIT.wav
