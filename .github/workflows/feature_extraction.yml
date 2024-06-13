@@ -1,16 +1,13 @@
-# .github/workflows/feature_extraction.yml
-name: Feature Extraction and Generation
+# .github/workflows/tempo_detection.yml
+name: Tempo Detection
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
-  extract_and_generate:
+  detect_tempo:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,23 +17,14 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v3
       with:
-        python-version: '3.8'  # Adjust Python version if needed
+        python-version: '3.8'
 
     - name: Install dependencies
       run: |
-        sudo apt-get install -y libsndfile1  # Install libsndfile
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install soundfile  # Install Python soundfile package
+        pip install librosa
 
-    - name: Extract Features and Generate Track
+    - name: Find Tempo/BPM
       run: |
-        python scripts/extract_features.py
+        python tempo_detection.py
 
-    - name: Commit and Push Generated Track
-      run: |
-        git config --global user.name 'github-actions[bot]'
-        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git add output/new_darkpsy_track.wav
-        git commit -m 'Add generated Darkpsy track'
-        git push
