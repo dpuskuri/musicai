@@ -18,13 +18,16 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Set up Python
-      uses: actions/setup-python@v2  # Use the latest stable version
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.8'  # Adjust Python version if needed
 
-    - name: Install Dependencies
+    - name: Install dependencies
       run: |
+        sudo apt-get install -y libsndfile1  # Install libsndfile
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install PySoundFile  # Install PySoundFile
+        pip install soundfile  # Install Python soundfile package
 
     - name: Extract Features and Generate Track
       run: |
@@ -37,4 +40,3 @@ jobs:
         git add output/new_darkpsy_track.wav
         git commit -m 'Add generated Darkpsy track'
         git push
-
