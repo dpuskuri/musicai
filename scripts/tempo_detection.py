@@ -31,7 +31,7 @@ if __name__ == "__main__":
     import sys
 
     if len(sys.argv) < 2:
-        print("Usage: python dofft.py <filename.wav> [bass] [tenor] [inverse] [freq1 freq2 ...]")
+        print("Usage: python tempo_detection.py <filename.wav> [bass] [tenor] [inverse] [freq1 freq2 ...]")
         sys.exit(1)
 
     filename = sys.argv[1]
