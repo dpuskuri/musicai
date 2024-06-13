@@ -26,5 +26,10 @@ jobs:
 
     - name: Find Tempo/BPM
       run: |
+        python scripts/tempo_detection.py  # Adjust the path to match your directory structure
+
+
+    - name: Find Tempo/BPM
+      run: |
         python tempo_detection.py
 
