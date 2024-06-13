@@ -1,3 +1,4 @@
+# .github/workflows/feature_extraction.yml
 name: Feature Extraction and Generation
 
 on:
@@ -14,15 +15,10 @@ jobs:
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v4  # Update to latest version that supports Node.js 20
-
-    - name: Set up Node.js 20
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20'  # Set Node.js version to 20
+      uses: actions/checkout@v3
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v2.2.3
       with:
         python-version: '3.8'
 
@@ -30,6 +26,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+        pip install PySoundFile  # Install PySoundFile
 
     - name: Extract Features and Generate Track
       run: |
@@ -39,7 +36,6 @@ jobs:
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git lfs track "output/new_darkpsy_track.wav"  # Ensure Git LFS is tracking the file
         git add output/new_darkpsy_track.wav
         git commit -m 'Add generated Darkpsy track'
         git push
