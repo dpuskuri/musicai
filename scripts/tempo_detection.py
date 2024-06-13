@@ -20,5 +20,7 @@ if __name__ == "__main__":
 
     audio_file = sys.argv[1]
     tempo = detect_tempo(audio_file)
+    print(f"Tempo type: {type(tempo)}")  # Debug information
     print(f"Detected tempo: {tempo:.2f} BPM")
+
 
