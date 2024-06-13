@@ -32,5 +32,4 @@ jobs:
       run: git lfs pull
 
     - name: Run Tempo Detection
-      run: python scripts/tempo_detection.py  # Adjust the path if necessary
-
+      run: python scripts/tempo_detection.py audio/CINDERVOMIT.wav  # Adjust the path if necessary
